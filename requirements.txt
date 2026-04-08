@@ -1,5 +1,8 @@
 easyocr
-opencv-python
+opencv-python-headless
 ultralytics
 torch
 gradio
+openenv
+gymnasium
+numpy
