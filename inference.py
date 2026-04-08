@@ -12,7 +12,7 @@ from vehicle_detector import VehicleDetector
 # CRITICAL: Grader looks for these environment variables
 API_BASE_URL = os.getenv("API_BASE_URL", "https://api.openenv.org") 
 MODEL_NAME = os.getenv("MODEL_NAME", "yolov8n")
-
+HF_TOKEN = os.getenv("HF_TOKEN")
 # Initialize tools
 reader = easyocr.Reader(['en'])
 detector = VehicleDetector(model_path=f"{MODEL_NAME}.pt")
