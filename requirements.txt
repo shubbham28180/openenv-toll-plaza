@@ -1,2 +1,5 @@
-pydantic
-openai
+easyocr
+opencv-python
+ultralytics
+torch
+gradio
