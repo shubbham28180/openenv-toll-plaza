@@ -1,31 +1,40 @@
 from ultralytics import YOLO
+import cv2
 
-# Pretrained YOLO model load
-model = YOLO("yolov8n.pt")
+class VehicleDetector:
+    def __init__(self, model_path="yolov8n.pt"):
+        # Load the model once when the app starts
+        self.model = YOLO(model_path)
 
-# Vehicle detection function
-def detect_vehicle(image_path):
-    results = model(image_path)
+    def detect(self, frame):
+        # Run YOLO on the image frame
+        results = self.model(frame)
+        
+        detected_labels = []
+        # Get the first result (since we only send one image)
+        r = results[0]
+        
+        # This draws the boxes on the image for us!
+        annotated_frame = r.plot() 
 
-    detected = []
-
-    for r in results:
         for box in r.boxes:
             cls = int(box.cls[0])
-            label = model.names[cls]
-
-            # Only useful vehicle types
+            label = self.model.names[cls]
             if label in ["car", "truck", "bus", "motorcycle"]:
-                detected.append(label)
+                detected_labels.append(label)
 
-    # Priority based decision
-    if "truck" in detected and "ambulance" in image_path.lower():
-        return "Ambulance"
-    elif "truck" in detected:
-        return "Truck"
-    elif "bus" in detected:
-        return "Ambulance"
-    elif "car" in detected:
-        return "Car"
-    else:
-        return "Unknown"
+        # Logic for the count or type
+        count = len(detected_labels)
+        
+        # Priority Logic
+        if "bus" in detected_labels:
+            status = "Ambulance/Bus Detected"
+        elif "truck" in detected_labels:
+            status = "Truck Detected"
+        elif "car" in detected_labels:
+            status = f"Car Detected (Total: {count})"
+        else:
+            status = "No Vehicles Found"
+
+        # Return BOTH the image with boxes and the status text
+        return annotated_frame, status
