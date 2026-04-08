@@ -19,6 +19,3 @@ dependencies = [
 
 [project.scripts]
 server = "server.app:app"
-
-[tool.uv]
-managed = true
