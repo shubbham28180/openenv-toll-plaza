@@ -3,6 +3,3 @@ uvicorn
 pydantic
 openai
 requests
-ultralytics
-opencv-python-headless
-numpy
