@@ -1,9 +1,9 @@
+ultralytics
 easyocr
 opencv-python-headless
-ultralytics
-torch
-gradio
-openenv
-gymnasium
-numpy
 Pillow
+numpy
+gradio
+gymnasium
+openenv
+torch
