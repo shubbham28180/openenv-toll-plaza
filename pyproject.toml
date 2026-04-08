@@ -3,9 +3,9 @@ requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "openenv-toll-plaza"
-version = "1.0.0"
-description = "A real-world toll plaza simulation for AI agents."
+name = "toll-plaza-env"
+version = "0.1.0"
+description = "Toll Plaza simulation for OpenEnv"
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [
@@ -13,5 +13,12 @@ dependencies = [
     "uvicorn",
     "pydantic",
     "openai",
-    "requests"
+    "requests",
+    "openenv-core>=0.2.0"
 ]
+
+[project.scripts]
+server = "server.app:app"
+
+[tool.uv]
+managed = true
