@@ -5,9 +5,8 @@ def reset_env():
 
 demo = gr.Interface(
     fn=reset_env,
-    inputs=[],
-    outputs="json",
-    allow_flagging="never"
+    inputs=None,
+    outputs="json"
 )
 
-demo.launch()
+demo.launch(server_name="0.0.0.0", server_port=7860)
