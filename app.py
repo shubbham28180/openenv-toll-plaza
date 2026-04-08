@@ -1,13 +1,13 @@
 import gradio as gr
 
-def run_project():
-    return "Smart Toll Plaza Project is running successfully!"
+def reset_env():
+    return {"status": "ok"}
 
 demo = gr.Interface(
-    fn=run_project,
-    inputs=None,
-    outputs="text",
-    title="Smart Toll Plaza System"
+    fn=reset_env,
+    inputs=[],
+    outputs="json",
+    allow_flagging="never"
 )
 
 demo.launch()
