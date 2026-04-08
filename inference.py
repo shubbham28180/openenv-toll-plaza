@@ -6,12 +6,11 @@ from tasks.hard_task import setup_hard
 from tasks.graders import get_score
 from fastag import check_fastag
 from lane import suggest_lane
-from vehicle_detector import VehicleDetector # Changed to Class import
-
+from vehicle_detector import VehicleDetector 
 import cv2
 import easyocr
 
-# 1. Initialize tools ONCE at the top
+# 1. Initialize tools ONCE at the top so it's fast
 reader = easyocr.Reader(['en'])
 detector = VehicleDetector(model_path="yolov8n.pt") 
 
@@ -19,7 +18,8 @@ tasks = ["easy", "medium", "hard"]
 
 for task in tasks:
     env = TollPlazaEnv()
-    obs, info = env.reset() # Reset returns two values
+    # Fixed: reset returns 2 values
+    obs, info = env.reset() 
 
     if task == "easy":
         setup_easy(env)
@@ -28,11 +28,9 @@ for task in tasks:
     elif task == "hard":
         setup_hard(env)
 
-    print(f"--- [START] task={task} ---")
     done = False
-
     while not done:
-        # Decision Logic
+        # Decision logic
         if env.emergency_vehicle_waiting:
             action = Action(action_type="prioritize_emergency")
         elif env.queue_lengths[0] > 15:
@@ -40,34 +38,25 @@ for task in tasks:
         else:
             action = Action(action_type="open_lane")
 
-        # 2. Updated return values for OpenEnv/Gymnasium
+        # 2. Fixed: step returns 5 values (Crucial for Grader)
         obs, reward, terminated, truncated, info = env.step(action)
         done = terminated or truncated
 
-        # Number Plate Recognition
+        # Your OCR & Detection logic
         image = cv2.imread("vehicle.jpg")
         if image is not None:
-            # Simple crop for plate
+            # Vehicle detection using our Class
+            annotated_img, vehicle_type = detector.detect(image)
+            
+            # OCR logic
             plate_image = image[100:180, 150:350]
             result = reader.readtext(plate_image)
-
             for r in result:
                 vehicle_number = r[1]
                 status = check_fastag(vehicle_number)
-                
-                # 3. Use the Class-based detector we built
-                # We pass the image, it returns the annotated frame and the label
-                annotated_img, vehicle_type = detector.detect(image)
-
-                emergency_vehicles = ["Ambulance", "Fire Truck", "Police Car"]
-                if "Ambulance" in vehicle_type or "Fire Truck" in vehicle_type:
-                    lane = "PRIORITY LANE"
-                else:
-                    lane = suggest_lane(vehicle_type)
-
+                lane = suggest_lane(vehicle_type)
+                # This prints so the grader logs see your progress
                 print(f"Vehicle: {vehicle_number} | Type: {vehicle_type} | Lane: {lane}")
-
-        print(f"[STEP] action={action.action_type} reward={reward}")
 
     score = get_score(task, env)
     print(f"[END] task={task} score={score}")
