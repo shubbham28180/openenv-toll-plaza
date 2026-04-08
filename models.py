@@ -1,18 +1,14 @@
 from pydantic import BaseModel
-from typing import List, Optional
+from typing import Optional, List, Dict, Any
 
 class Observation(BaseModel):
-    step_number: int
-    queue_lengths: List[int]
-    open_lanes: int
-    average_wait_time: float
-    emergency_vehicle_waiting: bool
-    message: str
+    view: str
+    metadata: Dict[str, Any]
 
 class Action(BaseModel):
-    action_type: str
-    lane_id: Optional[int] = None
+    command: str
+    args: Optional[Dict[str, Any]] = None
 
 class Reward(BaseModel):
-    score: float
-    reason: str
+    value: float  # Must be 0.0 to 1.0
+    reasoning: str

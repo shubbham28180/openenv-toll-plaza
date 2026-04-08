@@ -1,31 +1,15 @@
-# Toll Plaza Operations Environment
+# OpenEnv: Toll Plaza Simulation
+A real-world simulation of an automated toll booth management system.
 
-This project simulates an AI-based smart toll plaza system.
+## Action Space
+- `collect_20`: Collects the standard truck toll.
+- `open_gate`: Opens the physical barrier for the vehicle.
 
-## Features
-- Vehicle Number Plate Recognition using EasyOCR
-- FASTag Verification
-- Automatic Vehicle Detection using YOLOv8
-- Detects Car, Truck, Ambulance and Fire Truck
-- Emergency Vehicle Priority Lane
-- Automatic Lane Suggestion
-- Traffic Management for Easy, Medium and Hard scenarios
+## Observation Space
+- `view`: String description of the vehicle at the gate (detected via YOLO).
+- `metadata`: Contains the `task_id`.
 
-## Vehicle Flow
-1. Read vehicle image
-2. Detect number plate
-3. Check FASTag status
-4. Detect vehicle type automatically
-5. Suggest best lane
-6. Give priority lane to emergency vehicles
-
-## Project Files
-- `inference.py` → Main project file
-- `vehicle_detector.py` → Vehicle detection logic
-- `fastag.py` → FASTag verification
-- `lane.py` → Lane suggestion logic
-
-## Run Project
-```bash
-pip install -r requirements.txt
-python inference.py
+## Tasks
+1. **Easy**: Standard Sedan needs gate access.
+2. **Medium**: Heavy truck requires toll collection before opening gate.
+3. **Hard**: Emergency Ambulance requires immediate free passage.
