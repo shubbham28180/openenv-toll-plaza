@@ -5,7 +5,8 @@ class TollPlazaEngine:
     def __init__(self):
         self.step_count = 0
 
-    def reset(self):
+    # reset ke aage async lagao
+    async def reset(self):
         self.step_count = 0
         return Observation(
             vehicle_count=random.randint(0, 50),
@@ -13,7 +14,8 @@ class TollPlazaEngine:
             current_status="Normal"
         )
 
-    def step(self, action: Action):
+    # step ke aage async lagao
+    async def step(self, action: Action):
         self.step_count += 1
         status = "Congested" if action.action == 1 else "Clear"
         
@@ -23,5 +25,8 @@ class TollPlazaEngine:
             current_status=status
         )
         
-        # OpenEnv Standard: Obs, Reward, Done, Info
         return obs, 1.0, self.step_count >= 10, {"step": self.step_count}
+
+    # Ye function missing tha, isliye 500 Error aa raha tha
+    def close(self):
+        pass
