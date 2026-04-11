@@ -1,11 +1,12 @@
 import random
+from openenv_core.base_env import Environment
 from .models import Action, Observation
 
-class TollPlazaEngine:
+class TollPlazaEngine(Environment):  # Yahan Environment add kiya hai
     def __init__(self):
+        super().__init__()
         self.step_count = 0
 
-    # reset ke aage async lagao
     async def reset(self):
         self.step_count = 0
         return Observation(
@@ -14,7 +15,6 @@ class TollPlazaEngine:
             current_status="Normal"
         )
 
-    # step ke aage async lagao
     async def step(self, action: Action):
         self.step_count += 1
         status = "Congested" if action.action == 1 else "Clear"
@@ -27,6 +27,5 @@ class TollPlazaEngine:
         
         return obs, 1.0, self.step_count >= 10, {"step": self.step_count}
 
-    # Ye function missing tha, isliye 500 Error aa raha tha
     def close(self):
         pass
