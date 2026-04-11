@@ -1,19 +1,9 @@
-from fastapi import FastAPI
+import uvicorn
 from openenv_core.env_server import create_app
-from .engine import TollEnv
-from .models import Action, Observation
+from .engine import TollPlazaEngine
 
-# Initialize environment
-env = TollEnv()
+engine = TollPlazaEngine()
+app = create_app(engine)
 
-# Create OpenEnv compliant FastAPI app
-app = create_app(
-    env, 
-    Action, 
-    Observation, 
-    env_name="toll_plaza_env"
-)
-
-@app.get("/")
-async def health():
-    return {"status": "running", "env": "Toll Plaza"}
+if __name__ == "__main__":
+    uvicorn.run(app, host="0.0.0.0", port=8080)

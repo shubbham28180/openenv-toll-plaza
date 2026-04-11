@@ -1,19 +1,10 @@
-[build-system]
-requires = ["setuptools", "wheel"]
-build-backend = "setuptools.build_meta"
-
 [project]
-name = "toll-plaza-env"
+name = "openenv-toll-plaza"
 version = "0.1.0"
-description = "Toll Plaza simulation for OpenEnv"
-readme = "README.md"
-requires-python = ">=3.10"
 dependencies = [
     "fastapi",
     "uvicorn",
     "pydantic",
-    "openai",
-    "requests",
     "openenv-core>=0.2.0"
 ]
 

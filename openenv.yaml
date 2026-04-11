@@ -1,7 +1,2 @@
-name: "CleanEnv"
-version: "1.0.0"
-description: "Real-world task simulation environment."
 entry_point: "server.app:app"
-env_type: "docker"
-tags:
-  - openenv
+mode: "multi-mode"
