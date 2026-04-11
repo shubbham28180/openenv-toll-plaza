@@ -15,7 +15,6 @@ class TollPlazaEngine:
 
     def step(self, action: Action):
         self.step_count += 1
-        # Simple logic for toll simulation
         status = "Congested" if action.action == 1 else "Clear"
         
         obs = Observation(
@@ -24,8 +23,5 @@ class TollPlazaEngine:
             current_status=status
         )
         
-        reward = 1.0 if action.action == 0 else -1.0
-        done = self.step_count >= 10
-        info = {"details": "Toll simulation step"}
-        
-        return obs, reward, done, info
+        # OpenEnv Standard: Obs, Reward, Done, Info
+        return obs, 1.0, self.step_count >= 10, {"step": self.step_count}
