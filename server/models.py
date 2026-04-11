@@ -1,14 +1,10 @@
 from pydantic import BaseModel
-from typing import Optional, Dict, Any
+from typing import List
 
 class Action(BaseModel):
-    command: str
-    args: Optional[Dict[str, Any]] = None
+    action: int  # 0: Allow, 1: Block, 2: Divert
 
 class Observation(BaseModel):
-    view: str
-    metadata: Dict[str, Any]
-
-class Reward(BaseModel):
-    value: float
-    reasoning: str
+    vehicle_count: int
+    avg_speed: float
+    current_status: str
